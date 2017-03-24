@@ -1,0 +1,22 @@
+{
+    "name": "vorgas/zfa-optionsbody",
+    "description": "Integrates with Apigility to create a custom body for OPTIONS requests",
+    "keywords": ["apigility", "options", "response", "body"],
+    "homepage": "https://github.com/vorgas/zfa-optionsbody",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mike Hill",
+            "email": "mikehill.pointless@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.0",
+        "zendframework/zend-mvc": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "vorgas\\ZfOptionsBody\\": "src/OptionsBody"
+        }
+    }
+}
