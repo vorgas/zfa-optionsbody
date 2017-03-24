@@ -31,7 +31,7 @@ protected function getOptionsResponse(MvcEvent $event, array $options)
 {
     $response = $event->getResponse();
     // Add this next line
-    $response->setContent(\vorgas\ZfOptionsBody\OptionsBody::buildBody($event));
+    $response->setContent(\vorgas\ZfaOptionsBody\OptionsBody::buildBody($event));
     $this->createAllowHeader($options, $response);
     return $response;
 }
