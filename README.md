@@ -8,9 +8,15 @@ Apigility, by default, does not provide a body to an OPTIONS request. It
 only provides allowed headers. This hooks into Apigility files to create
 documentation automatically.
 
-## Example
+## Usage
 
-*needs a link to a working public api*
+In your apigility module's Module.php add the following...
+```php
+public function onBootstrap(MvcEvent $event)
+{
+    new \vorgas\ZfaOptionsBody\OptionsListener($event);
+}
+```
 
 ## Motivation
 
@@ -23,19 +29,10 @@ hook into these and create an automatic response.
 
 ## Installation
 
-*When I get this to work with composer, put in the code*
-
-You will also need to modify vendor/zfcampus/zf-rest/src/Listener/OptionsListener.php
 ```php
-protected function getOptionsResponse(MvcEvent $event, array $options)
-{
-    $response = $event->getResponse();
-    // Add this next line
-    $response->setContent(\vorgas\ZfaOptionsBody\OptionsBody::buildBody($event));
-    $this->createAllowHeader($options, $response);
-    return $response;
-}
+composer require "vorgas/zfa-optionsbody dev-master"
 ```
+
 ## Tests
 
 *Describe and show how to run the tests with code examples.*
@@ -54,4 +51,3 @@ Convert to a legitimate class instead of a static class
 Move array parsing into sub classes
 Provide better default values
 Create unit tests
-Utilize composer's replace feature to override the OptionsListener

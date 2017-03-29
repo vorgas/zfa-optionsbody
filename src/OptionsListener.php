@@ -1,8 +1,10 @@
 <?php
 namespace vorgas\ZfaOptionsBody;
 
+use Zend\EventManager\EventManager;
 use Zend\Mvc\MvcEvent;
 use Zend\Http\Request;
+use Zend\Http\Response;
 
 /**
  *
@@ -11,27 +13,43 @@ use Zend\Http\Request;
  */
 class OptionsListener
 {
-
     /**
+     * Establishes the event listener
+     * 
+     * @param MvcEvent $event
      */
     public function __construct(MvcEvent $event)
     {
+        $handler = get_class($this). '::onRoute';
         $app = $event->getTarget();
-        $services = $app->getServiceManager();
         $eventManager = $app->getEventManager();
+        $eventManager->attach(MvcEvent::EVENT_FINISH, $handler, -100);
+    }
+
+    
+    /**
+     * If an http method of OPTIONS is used, get the response body
+     * 
+     * This is a static function because I am too stupid to figure out how
+     * to use a normal function in $eventManager->attach() during the constructor.
+     * I tried using [$this, 'onRoute'] but it complained about getting an
+     * array, even though that's what the docs say to do.
+     * 
+     * @param MvcEvent $event
+     * @return Response
+     */
+    public static function onRoute(MvcEvent $event): Response
+    {
+        $request = $event->getRequest();
+        $method = $request->getMethod();
+        $response = $event->getResponse();
         
-        $eventManager->attach(MvcEvent::EVENT_FINISH, function($e) {
-            $request = $e->getRequest();
-            $method = $request->getMethod();
+        if ($method === Request::METHOD_OPTIONS) {
+            $content = OptionsBody::buildBody($event);
+            $response->setContent($content);
+        }
         
-            if ($method === Request::METHOD_OPTIONS) {
-                $response = $e->getResponse();
-        
-                $content = json_encode(['content' => 'some content']);
-                $response->setContent($content);
-                return $response;
-            }
-        }, -100);
+        return $response;
     }
 }
 
