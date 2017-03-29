@@ -94,7 +94,7 @@ class OptionsBody
         return json_encode($body, JSON_PRETTY_PRINT);
     }
 
-
+    
     /**
      * Returns an array of custom lines for the OPTIONS body
      *

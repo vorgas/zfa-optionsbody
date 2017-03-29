@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "vorgas\\ZfaOptionsBody\\": "src/OptionsBody"
+            "vorgas\\ZfaOptionsBody\\": "src"
         }
     }
 }
